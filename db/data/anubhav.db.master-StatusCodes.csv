@@ -1,0 +1,5 @@
+CODE,Value
+A, Approved
+P, Pending
+R,Rejected
+X, Unknown

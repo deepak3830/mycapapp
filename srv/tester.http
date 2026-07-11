@@ -1,0 +1,174 @@
+// Simple test client to test the service MyService
+
+### for new send request to the service MyService
+
+#### hello world test
+http://localhost:4004/odata/v4/MyService/anubhav(name='Deepak')
+
+
+#### test service end point
+http://localhost:4004/odata/v4/CatalogService
+
+### metadata 
+http://localhost:4004/odata/v4/CatalogService/$metadata
+
+
+#### Read all employees
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+Authorization: Basic deepak:Welcome1
+
+### top 5 Male employees 
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$top=5&$filter=sex eq 'M'
+
+
+### Pagination example to get 5 records at a time
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$top=5&$skip=30
+
+### Get employee by ID
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=ID eq '02BD2137-0890-1EEA-A6C2-BB55C19B87FB'
+
+
+#### Pattern matching example to get all employees whose name starts with 'A'
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=startswith(nameFirst,'A') eq true & filter=startswith(nameLast,'W') eq true
+
+
+
+#### Get all purchase orders
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet
+
+#### Get all purchase orders with order by date in descending order 
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet?$orderby=TAX_AMOUNT desc
+
+
+### Get one purchase order by ID
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052
+
+
+### Get corresponding purchase order items for a given purchase order
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052/Items
+
+
+### Single purchase order + corresponding purchase order items for a given purchase order
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052?$expand=Items
+
+### mixin -- get from views
+
+http://localhost:4004/odata/v4/CDSService/ProductViewSet/74867AD200E41EDBA5D8B06B26EB4052?$expand=To_Items
+
+
+### filer on the child entity -- get from views  -- TaxAmount le 300    
+http://localhost:4004/odata/v4/CDSService/ProductViewSet/74867AD200E41EDBA5D8B06B26EB4052?$expand=To_Items($filter=TaxAmount le 400)
+
+
+#### Create operation to insert data into database
+POST http://localhost:42035/odata/v4/CatalogService/EmployeeSet
+Authorization: Basic user1:123456
+Content-Type: application/json
+
+{
+  "nameFirst": "ChistianoDeepak",
+  "nameMiddle": null,
+  "nameLast": "Ronaldo",
+  "nameInitials": null,
+  "sex": "M",
+  "language": "E",
+  "phoneNumber": null,
+  "email": "christiano@sap.com",
+  "loginName": "RONALDOCH",
+  "Currency_code": "EUR",
+  "salaryAmount": "1000000",
+  "accountNumber": "7766554433",
+  "bankId": "121000",
+  "bankName": "My Bank of Scotland"
+}
+
+### Check the data is inserted successfully
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet?$filter=nameFirst eq 'ChistianoDeepak'
+
+
+
+### change data - update - salaryAmount - copy the id created in last call
+PATCH http://localhost:4004/odata/v4/CatalogService/EmployeeSet/19a4c1e1-4714-477f-bf5d-2456fe74bab3   
+Content-Type: application/json
+
+{
+  "salaryAmount": 15000000
+}
+
+### Check the data is updated successfully
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet/19a4c1e1-4714-477f-bf5d-2456fe74bab3
+
+
+### Single purchase order + corresponding purchase order items for a given purchase order
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052?$expand=Items
+
+###
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052
+
+### Try to insert - Test deep insert - Pass batch of data
+POST http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet
+Content-Type: application/json
+
+{
+  "currency_code": "EUR",
+  "GROSS_AMOUNT": 3913.91,
+  "NET_AMOUNT": 3289,
+  "TAX_AMOUNT": 624.91,
+  "NODE_KEY": "74867AD200E41EDBA5D8B0C9DDC2D0D0",
+  "PO_ID": "300000000",
+  "PARTNER_GUID_NODE_KEY": "74867AD200E41EDBA5F8B06885B04052",
+  "LIFECYCLE_STATUS": "N",
+  "OVERALL_STATUS": "P",
+  "NOTE": null,
+  "Items": [
+    {
+      "currency_code": "ARS",
+      "GROSS_AMOUNT": 154.7,
+      "NET_AMOUNT": 130,
+      "TAX_AMOUNT": 24.7,
+      "NODE_KEY": "74867AD200E4WEDBA5D8B0CBD35AD0D1",
+      "PO_ITEM_POS": 10,
+      "PRODUCT_GUID_NODE_KEY": "74867AD200E41EDBA5D8B06B26F60052"
+    },
+    {
+      "currency_code": "ARS",
+      "GROSS_AMOUNT": 402.22,
+      "NET_AMOUNT": 338,
+      "TAX_AMOUNT": 64.22,
+      "NODE_KEY": "74867AD20WE41EDBA5D8B0CBD35AD0D2",
+
+      "PO_ITEM_POS": 20,
+      "PRODUCT_GUID_NODE_KEY": "74867AD200E41EDBA5D8B06B26F06052"
+    }
+  ]
+}
+
+
+#### Test the function getLargeOrders() - which is not instance bound
+http://localhost:4004/odata/v4/CatalogService/getLargeOrders()
+
+
+### get the purchase order with key 74867AD200E41EDBA5D8B0C98DC28052
+http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052
+
+
+### Test the action boost() - which is instance bound
+POST http://localhost:4004/odata/v4/CatalogService/PurchaseOrderSet/74867AD200E41EDBA5D8B0C98DC28052/boost
+content-type: application/json
+
+{}
+
+
+### Example for V2 OData service - Get all employees
+http://localhost:4004/odata/v2/CatalogService/EmployeeSet
+
+### V4 OData service - Get all employees
+http://localhost:4004/odata/v4/CatalogService/EmployeeSet
+
+
+
+### test productviewset
+http://localhost:4004/odata/v4/CDSService/ProductViewSet
+
+#### test itemviewset
+http://localhost:4004/odata/v4/CDSService/ItemViewSet
