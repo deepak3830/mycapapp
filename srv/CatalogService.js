@@ -3,6 +3,31 @@ const cds = require('@sap/cds')
 module.exports = class CatalogService extends cds.ApplicationService { init() {
 
   const { EmployeeSet, ProductSet, BusinessPartnerSet, AddressSet, PurchaseOrderSet, PurchaseItemsSet } = cds.entities('CatalogService')
+
+
+
+    // ====================================================
+    // TEMPORARY SECURITY DEBUGGING * REMOVE AFTER TESTING
+    // =======================================*============
+
+
+  this.before('*', async (req) => {
+    console.log('========== CAP SECURITY DEBUG ==========');
+    console.log('EVENT:', req.event);
+    console.log('TARGET:', req.target ? req.target.name : 'N/A');
+    console.log('USER ID:', req.user ? req.user.id : 'N/A');
+    console.log('IS AUTHENTICATED:', req.user.is('authenticated-user'));
+    console.log('IS VIEWER:', req.user.is('Viewer'));
+    console.log('IS EDITOR:', req.user.is('Editor'));
+    console.log('ALL ROLES:', req.user._roles);
+    console.log('USER ATTRIBUTES:', req.user.attr);
+    console.log('========================================');
+  });
+
+// end   of debug code ///
+
+
+
 /////   add generic handlers for employee 
   // this.before (['CREATE', 'UPDATE'], EmployeeSet, async (req) => {   --> removed UPDATE
     this.before(['CREATE'], EmployeeSet, async (req) => {    

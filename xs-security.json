@@ -1,59 +1,65 @@
 {
   "xsappname": "mycapapp",
   "scopes": [
-    {
-      "name": "$XSAPPNAME.Display",
-      "description": "display"
-    },
-    {
-      "name": "$XSAPPNAME.Edit",
-      "description": "edit"
-    },
-    {
-      "name": "$XSAPPNAME.Delete",
-      "description": "delete",
-      "granted-apps": [
-        "$XSAPPNAME(application,business-partner)"
-      ]
-    },
-    {
-      "name": "$XSAPPNAME.Viewer",
-      "description": "Viewer"
-    },
-    {
-      "name": "$XSAPPNAME.Editor",
-      "description": "Editor"
-    }
+            {
+              "name": "$XSAPPNAME.Display",
+              "description": "display"
+            },
+
+            {
+              "name": "$XSAPPNAME.Edit",
+              "description": "edit"
+            },
+
+            {
+              "name": "$XSAPPNAME.Delete",
+              "description": "delete",
+              "granted-apps": [
+                "$XSAPPNAME(application,business-partner)"
+              ]
+            },
+
+            {
+              "name": "$XSAPPNAME.Viewer",
+              "description": "Viewer"
+            },
+
+            {
+              "name": "$XSAPPNAME.Editor",
+              "description": "Editor"
+            }
   ],
+
   "attributes": [
-    {
-      "name": "spiderMan",
-      "description": "Nank name that will control row level security",
-      "valueType": "string"
-    }
+            {
+              "name": "spiderMan",
+              "description": "Nank name that will control row level security",
+              "valueType": "string"
+            }
   ],
   "role-templates": [
-    {
-      "name": "Viewer",
-      "description": "View all POs and employee data",
-      "default-role-name": "Viewer: Authorized to Read All POs and Employee Data",
-      "scope-references": [
-        "$XSAPPNAME.Display"
-      ],
-      "attribute-references": [
-        {
-          "name": "spiderMan"
-        }
-      ]
-    },
-    {
-      "name": "Editor",
-      "description": "Edit, delete POs and employee data",
-      "scope-references": [
-        "$XSAPPNAME.Edit",
-        "$XSAPPNAME.Delete"
-      ]
-    }
+            {
+              "name": "Viewer",
+              "description": "View all POs and employee data",
+              "default-role-name": "Viewer: Authorized to Read All POs and Employee Data",
+              "scope-references": [
+                "$XSAPPNAME.Viewer"
+              ],
+              "attribute-references": [
+                {
+                  "name": "spiderMan"
+                }
+              ]
+            },
+
+            {
+              "name": "Editor",
+              "description": "Edit, delete POs and employee data",
+              "scope-references": [
+                "$XSAPPNAME.Editor",
+                "$XSAPPNAME.Delete"
+              ]
+            }
   ],
   "authorities": [
     "$ACCEPT_GRANTED_AUTHORITIES"
@@ -61,7 +67,7 @@
   "oauth2-configuration": {
     "token-validity": 9000,
     "redirect-uris": [
-      "https://*.cfapps.us10-001.hana.ondemand.com/**"
+      "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
     ],
     "credential-types": [
       "binding-secret",

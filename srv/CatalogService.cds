@@ -42,8 +42,8 @@ service CatalogService @(path: 'CatalogService', requires: 'authenticated-user')
     entity PurchaseOrderSet @(
         //  Start add security
                              restrict : [
-                                    { grant : ['READ'], to : 'Viewer', where : 'bankName = $user.spiderman' },  // this will allow the user to view the data if he has the Viewer role, otherwise he will get an error message
-                                    { grant : ['UPDATE', 'DELETE'], to : 'Editor' } // this will allow the user to update and delete the data if he has the Editor role, otherwise he will get an error message
+                                    { grant : ['READ'], to : 'Viewer'},  // this will allow the user to view the data if he has the Viewer role, otherwise he will get an error message
+                                    { grant : ['UPDATE', 'DELETE', 'CREATE'], to : 'Editor' } // this will allow the user to update and delete the data if he has the Editor role, otherwise he will get an error message
                                
                                 ],
         // End add security
