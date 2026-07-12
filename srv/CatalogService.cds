@@ -113,4 +113,4 @@ service CatalogService @(path: 'CatalogService', requires: 'authenticated-user')
 // Get default values for the PurchaseOrderSet entity, which can be used to pre-populate fields when creating a new purchase order
     function getDefaultValue() returns PurchaseOrderSet;
 
-} // test
+} // test add via bas
