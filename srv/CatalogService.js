@@ -24,10 +24,8 @@ module.exports = class CatalogService extends cds.ApplicationService { init() {
     console.log('========================================');
   });
 
-// end   of debug code ///
-
-
-
+  // end   of debug code ///
+  
 /////   add generic handlers for employee 
   // this.before (['CREATE', 'UPDATE'], EmployeeSet, async (req) => {   --> removed UPDATE
     this.before(['CREATE'], EmployeeSet, async (req) => {    
