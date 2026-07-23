@@ -3,7 +3,7 @@ ID: mycapapp
 version: 1.0.0
 description: "A simple CAP project."
 parameters:
-  enable-parallel-deployments: true
+  enable-parallel-deployments: false
 build-parameters:
   before-all:
     - builder: custom
